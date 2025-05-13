@@ -3,7 +3,7 @@ import Box from '@/components/layouts/Box.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { RadioGroup } from '@/components/ui/radio-group';
 import RadioGroupItem from '@/components/ui/radio-group/RadioGroupItem.vue';
-import { watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import Typography from '@/components/ui/typography/Typography.vue';
 import Card from '@/components/ui/card/Card.vue';
 import CardContent from '@/components/ui/card/CardContent.vue';
@@ -17,34 +17,59 @@ import { useQuizzLogic } from '@/composables/useQuizzLogic';
 
 const quizzStore = useQuizzStore()
 
-// Destructure reaktif untuk state dan getter
 const {
-  selectedAnswer,
+  activeQuestionIndex,
   score,
-  isShowAnswer,
 } = storeToRefs(quizzStore)
 
-// Akses langsung untuk actions
 const {
-
-  setSelectedAnswer,
-  setIsShowAnswer
-} = quizzStore
-
-const { checkAnswer, getActiveQuestion, getCorrectAnswerOption, goToNextQuestion, } = useQuizzLogic()
+  getActiveQuestion,
+  getCorrectAnswerOption,
+  goToNextQuestion,
+  goToPreviousQuestion,
+  submitAnswer,
+  getCurrentAnswer,
+  checkAnswer
+} = useQuizzLogic()
 
 const { getOptionString, getActiveQuestionString } = useQuizzDisplay()
 
+const isShowAnswer = ref(false)
+
+const selectedAnswer = ref<string | null>(null)
+
 const handleClickButtonNext = () => {
   goToNextQuestion()
-  setSelectedAnswer(null)
-  setIsShowAnswer(false)
 }
 
-watchEffect(() => {
-  if (selectedAnswer.value) {
+const handleClickButtonPrev = () => {
+  goToPreviousQuestion()
+}
+
+watch(selectedAnswer, (newValue) => {
+  if (newValue) {
+    submitAnswer({
+      questionId: getActiveQuestion.value.id,
+      selectedAnswer: newValue,
+    })
+
     checkAnswer()
-    setIsShowAnswer(true)
+
+    isShowAnswer.value = true
+  } else {
+    isShowAnswer.value = false
+  }
+})
+
+watch(activeQuestionIndex, () => {
+  if (getCurrentAnswer.value) {
+    selectedAnswer.value = getCurrentAnswer.value.id
+
+    isShowAnswer.value = true
+  } else {
+    selectedAnswer.value = null
+
+    isShowAnswer.value = false
   }
 })
 </script>
@@ -72,18 +97,16 @@ watchEffect(() => {
           </Box>
         </RadioGroup>
 
-        <!-- Container dengan tinggi dan lebar tetap -->
-        <Box class="mt-2 line-clamp-3 text-ellipsis overflow-hidden">
-          <!-- Konten Asli -->
-          <Box v-show="isShowAnswer" class=" w-full h-full">
-            <Typography>
-              ✅ Correct Answer: {{ getOptionString(getCorrectAnswerOption) }}
-            </Typography>
-            <Typography variant="textSm" weight="medium" class="text-gray-600 mt-2">
-              {{ getActiveQuestion.reason }}
-            </Typography>
-          </Box>
+        <!-- Konten Asli -->
+        <Box v-show="isShowAnswer" class=" w-full h-full">
+          <Typography>
+            ✅ Correct Answer: {{ getOptionString(getCorrectAnswerOption) }}
+          </Typography>
+          <Typography variant="textSm" weight="medium" class="text-gray-600 mt-2">
+            {{ getActiveQuestion.reason }}
+          </Typography>
         </Box>
+
       </Box>
 
       <!-- Score -->
@@ -100,8 +123,12 @@ watchEffect(() => {
     </Box>
 
     <!-- Tombol Next -->
-    <Box class="w-10 h-10">
-      <Button v-show="isShowAnswer" @click="handleClickButtonNext">Next</Button>
+    <Box variant="row">
+      <Button variant="secondary" @click="handleClickButtonPrev">
+        Prev
+      </Button>
+
+      <Button @click="handleClickButtonNext">Next</Button>
     </Box>
   </Box>
 </template>

@@ -2,16 +2,24 @@
 import Box from '@/components/layouts/Box.vue';
 import Button from '@/components/ui/button/Button.vue';
 import Typography from '@/components/ui/typography/Typography.vue';
+import { useQuizzLogic } from '@/composables/useQuizzLogic';
 import { router } from '@/router';
 import { useQuizzStore } from '@/stores/quizz-store';
+import { watchEffect } from 'vue';
 
 const quizzStore = useQuizzStore()
 
+const { checkAnswer } = useQuizzLogic()
+
 const backToHome = () => {
-    router.push('/');
+    router.replace('/');
 
     quizzStore.resetQuiz()
 }
+
+watchEffect(() => {
+    checkAnswer()
+})
 
 </script>
 

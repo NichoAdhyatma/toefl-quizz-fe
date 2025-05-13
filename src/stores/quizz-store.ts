@@ -1,44 +1,37 @@
+import type { QuizzAnswer } from "@/types/quizz-types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const useQuizzStore = defineStore("quizz", () => {
-  const activeQuestionIndex = ref<number>(0);
+export const useQuizzStore = defineStore(
+  "quizz",
+  () => {
+    const activeQuestionIndex = ref<number>(0);
 
-  const score = ref(0);
+    const score = ref(0);
 
-  const isShowAnswer = ref(false);
+    const answeredQuestions = ref<QuizzAnswer[]>([]);
 
-  const selectedAnswer = ref<string | null>(null);
+    function setScore(value: number) {
+      score.value = value;
+    }
 
-  function setSelectedAnswer(answer: string | null) {
-    selectedAnswer.value = answer;
+    function resetQuiz() {
+      activeQuestionIndex.value = 0;
+      score.value = 0;
+      answeredQuestions.value = [];
+    }
+
+    return {
+      activeQuestionIndex,
+      resetQuiz,
+      score,
+      setScore,
+      answeredQuestions,
+    };
+  },
+  {
+    persist: {
+      pick: ["activeQuestionIndex", "answeredQuestions", "score"],
+    },
   }
-
-  function setScore(value: number) {
-    score.value = value;
-  }
-
-  function setIsShowAnswer(value: boolean) {
-    isShowAnswer.value = value;
-  }
-
-  function resetQuiz() {
-    activeQuestionIndex.value = 0;
-    score.value = 0;
-    isShowAnswer.value = false;
-    selectedAnswer.value = null;
-  }
-
-  return {
-    activeQuestionIndex,
-    selectedAnswer,
-    setSelectedAnswer,
-    resetQuiz,
-    score,
-    setScore,
-    isShowAnswer,
-    setIsShowAnswer,
-  };
-}, {
-  persist: true
-});
+);
