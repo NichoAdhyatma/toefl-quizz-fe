@@ -5,7 +5,6 @@ export type QuizzOption = {
 
 export type QuestionItem = {
   id: number;
-  number: number;
   question: string;
   options: QuizzOption[];
   correct_answer: string;

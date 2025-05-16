@@ -1,9 +1,12 @@
 import { computed } from "vue";
-import type { QuizzOption } from "@/types/quizz-types"; 
+import type { QuizzOption } from "@/types/quizz-types";
 import { useQuizzLogic } from "./useQuizzLogic";
+import { useQuizzStore } from "@/stores/quizz-store";
 
 export function useQuizzDisplay() {
   const { getActiveQuestion } = useQuizzLogic();
+
+  const store = useQuizzStore();
 
   const getOptionString = (option?: QuizzOption) => {
     if (!option) return "";
@@ -11,7 +14,7 @@ export function useQuizzDisplay() {
   };
 
   const getActiveQuestionString = computed(() => {
-    return `${getActiveQuestion.value.number}. ${getActiveQuestion.value.question}`;
+    return `${store.activeQuestionIndex + 1}. ${getActiveQuestion.value.question}`;
   });
 
   return {

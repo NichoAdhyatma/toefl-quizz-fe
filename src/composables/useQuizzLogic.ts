@@ -39,6 +39,12 @@ export function useQuizzLogic() {
     }
   }
 
+  function goToQuestion(index: number) {
+    if (index >= 0 && index < questions.length) {
+      store.activeQuestionIndex = index;
+    }
+  }
+
   function goToPreviousQuestion() {
     if (store.activeQuestionIndex > 0) {
       store.activeQuestionIndex--;
@@ -81,5 +87,6 @@ export function useQuizzLogic() {
     goToPreviousQuestion,
     submitAnswer,
     getCurrentAnswer,
+    goToQuestion
   };
 }

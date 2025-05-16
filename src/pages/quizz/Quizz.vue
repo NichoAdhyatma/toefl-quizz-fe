@@ -1,38 +1,37 @@
 <script setup lang="ts">
 import Box from '@/components/layouts/Box.vue';
-import Label from '@/components/ui/label/Label.vue';
-import { RadioGroup } from '@/components/ui/radio-group';
-import RadioGroupItem from '@/components/ui/radio-group/RadioGroupItem.vue';
 import { ref, watch } from 'vue';
 import Typography from '@/components/ui/typography/Typography.vue';
-import Card from '@/components/ui/card/Card.vue';
-import CardContent from '@/components/ui/card/CardContent.vue';
-import CardHeader from '@/components/ui/card/CardHeader.vue';
-import CardTitle from '@/components/ui/card/CardTitle.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { useQuizzStore } from '@/stores/quizz-store';
 import { storeToRefs } from 'pinia';
 import { useQuizzDisplay } from '@/composables/useQuizzDisplay';
 import { useQuizzLogic } from '@/composables/useQuizzLogic';
+import ScoreCard from '@/components/ScoreCard.vue';
+import CorrectAnswerCard from '@/components/CorrectAnswerCard.vue';
+import RadioOptions from '@/components/RadioOptions.vue';
+import { questions } from '@/data/question-mock';
+import type { QuestionItem } from '@/types/quizz-types';
 
 const quizzStore = useQuizzStore()
 
 const {
   activeQuestionIndex,
   score,
+  answeredQuestions
 } = storeToRefs(quizzStore)
 
 const {
   getActiveQuestion,
-  getCorrectAnswerOption,
   goToNextQuestion,
   goToPreviousQuestion,
   submitAnswer,
   getCurrentAnswer,
-  checkAnswer
+  checkAnswer,
+  goToQuestion
 } = useQuizzLogic()
 
-const { getOptionString, getActiveQuestionString } = useQuizzDisplay()
+const { getActiveQuestionString } = useQuizzDisplay()
 
 const isShowAnswer = ref(false)
 
@@ -72,63 +71,54 @@ watch(activeQuestionIndex, () => {
     isShowAnswer.value = false
   }
 })
+
+const getButtonVariant = (question: QuestionItem) => {
+  const alreadyAnswered = answeredQuestions.value.find((item) => item.questionId === question.id)
+
+  if (getActiveQuestion.value.id === question.id) {
+    return 'default'
+  } else if (alreadyAnswered) {
+    return 'success'
+  } else {
+    return 'outline'
+  }
+}
+
 </script>
 
 <template>
-  <Box variant="column" class="w-full justify-center items-center h-screen gap-10 flex-wrap">
-    <Box variant="row" class="p-4 space-x-4 items-center justify-center flex-wrap">
-      <!-- Left Side Soal -->
-      <Box variant="column" class="space-y-2 w-96 h-fit">
+  <Box variant="row" class="p-4 space-x-4 mt-10 justify-center min-w-full flex-col sm:flex-row">
+    <!-- Left Side Soal -->
+    <Box variant="column" class="space-y-2 w-full">
+      <Box variant="column" class="bg-white shadow-md rounded-lg space-y-4 w-full min-h-96 border p-8">
         <!-- Pertanyaan -->
         <Typography variant="textMd" weight="medium" v-html="getActiveQuestionString" />
 
-
-
         <!-- Pilihan Jawaban -->
-        <RadioGroup :disabled="isShowAnswer" v-model="selectedAnswer">
-          <Box variant="column" class="space-y-4">
-            <Box v-for="option in getActiveQuestion.options" :key="option.id" variant="row"
-              class="items-center space-x-2">
-              <RadioGroupItem :id="String(option.id)" :value="option.id" />
-              <Label :for="String(option.id)" class="cursor-pointer">
-                {{ getOptionString(option) }}
-              </Label>
-            </Box>
-          </Box>
-        </RadioGroup>
+        <RadioOptions :disabled="isShowAnswer" v-model="selectedAnswer" />
 
         <!-- Konten Asli -->
-        <Box v-show="isShowAnswer" class=" w-full h-full">
-          <Typography>
-            ✅ Correct Answer: {{ getOptionString(getCorrectAnswerOption) }}
-          </Typography>
-          <Typography variant="textSm" weight="medium" class="text-gray-600 mt-2">
-            {{ getActiveQuestion.reason }}
-          </Typography>
-        </Box>
-
+        <CorrectAnswerCard v-show="isShowAnswer" />
       </Box>
 
-      <!-- Score -->
-      <Card class="w-80 pl-0 py-4 pr-20">
-        <CardHeader>
-          <CardTitle class="text-lg">Score :</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Typography variant="displayMd" weight="semibold" class="text-green-500">
-            {{ score }}
-          </Typography>
-        </CardContent>
-      </Card>
+      <Box variant="row" class="mt-4 justify-end">
+        <Button variant="secondary" @click="handleClickButtonPrev" :disabled="activeQuestionIndex === 0">
+          Prev
+        </Button>
+
+        <Button @click="handleClickButtonNext">Next</Button>
+      </Box>
     </Box>
 
-    <!-- Tombol Next -->
-    <Box variant="row">
-      <Button variant="secondary" @click="handleClickButtonPrev">
-        Prev
-      </Button>
+    <Box variant='column' class="space-y-4 min-w-1/4">
+      <Box class="bg-white shadow-md rounded-lg border grid grid-cols-5 gap-2 p-4">
+        <Button v-for="(question, i) in questions" :variant="getButtonVariant(question)" :key="i"
+          class="!w-full p-4 !h-12 flex items-center justify-center text-sm font-medium" @click="goToQuestion(i)">
+          {{ i + 1 }}
+        </Button>
+      </Box>
 
-      <Button @click="handleClickButtonNext">Next</Button>
+      <ScoreCard :score="score" />
     </Box>
   </Box>
 </template>

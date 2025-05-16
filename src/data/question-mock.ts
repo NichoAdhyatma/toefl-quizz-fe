@@ -3,7 +3,6 @@ import type { QuestionItem } from "@/types/quizz-types";
 export const questions: QuestionItem[] = [
   {
     id: 1,
-    number: 1,
     question:
       "The professor ____ the results of the study to the class yesterday.",
     options: [
@@ -18,7 +17,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 2,
-    number: 2,
     question:
       "It is important that every student ____ their ID during the exam.",
     options: [
@@ -33,7 +31,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 3,
-    number: 3,
     question:
       "Neither the manager nor the employees ____ responsible for the error.",
     options: [
@@ -48,7 +45,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 4,
-    number: 4,
     question: "The book, along with the notes, ____ on the desk.",
     options: [
       { id: "a", value: "is" },
@@ -62,7 +58,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 5,
-    number: 5,
     question:
       "Not only ____ the budget reduced, but also several employees were laid off.",
     options: [
@@ -77,7 +72,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 6,
-    number: 6,
     question: "Each of the players ____ a locker in the changing room.",
     options: [
       { id: "a", value: "have" },
@@ -91,7 +85,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 7,
-    number: 7,
     question: "The committee ____ made a final decision on the proposal.",
     options: [
       { id: "a", value: "has" },
@@ -105,7 +98,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 8,
-    number: 8,
     question: "If she ____ earlier, she would not have missed the meeting.",
     options: [
       { id: "a", value: "left" },
@@ -119,7 +111,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 9,
-    number: 9,
     question: "The more he practices, ____ he becomes.",
     options: [
       { id: "a", value: "better" },
@@ -132,7 +123,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 10,
-    number: 10,
     question: "The report must ____ before the end of the day.",
     options: [
       { id: "a", value: "submit" },
@@ -146,7 +136,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 11,
-    number: 11,
     question: "By the time she arrives, we ____ eating.",
     options: [
       { id: "a", value: "finish" },
@@ -160,7 +149,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 12,
-    number: 12,
     question:
       "Although the test was difficult, most of the students ____ it well.",
     options: [
@@ -175,8 +163,7 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 13,
-    number: 13,
-    question: "There ____ a number of interesting articles in the journal.",
+    question: "There ____ a o interesting articles in the journal.",
     options: [
       { id: "a", value: "is" },
       { id: "b", value: "are" },
@@ -184,11 +171,11 @@ export const questions: QuestionItem[] = [
       { id: "d", value: "has" },
     ],
     correct_answer: "b",
-    reason: "“A number of” selalu diikuti oleh plural verb.",
+    reason: "“A o” selalu diikuti oleh plural verb.",
   },
   {
     id: 14,
-    number: 14,
+
     question: "He is the only one of the students who ____ passed the exam.",
     options: [
       { id: "a", value: "have" },
@@ -202,7 +189,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 15,
-    number: 15,
     question: "Not until the sun set ____ able to see the mountain clearly.",
     options: [
       { id: "a", value: "he was" },
@@ -216,7 +202,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 16,
-    number: 16,
     question:
       "The student <u>was</u> late to class <u>because</u> he <u>forget</u> to set his alarm <u>clock</u>.",
     options: [
@@ -230,7 +215,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 17,
-    number: 17,
     question:
       "She <u>enjoys</u> to <u>listen</u> to music <u>while</u> she <u>studies</u>.",
     options: [
@@ -245,7 +229,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 18,
-    number: 18,
     question:
       "Neither of the answers <u>are</u> <u>correct</u>, so the teacher <u>asked</u> the class to <u>try</u> again.",
     options: [
@@ -259,7 +242,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 19,
-    number: 19,
     question:
       "My brother <u>who</u> lives in Jakarta <u>have</u> three <u>cats</u> and a <u>dog</u>.",
     options: [
@@ -273,7 +255,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 20,
-    number: 20,
     question:
       "The <u>informations</u> you gave me <u>was</u> very <u>helpful</u> and <u>appreciated</u>.",
     options: [
@@ -287,7 +268,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 21,
-    number: 21,
     question:
       "Each of the <u>employee</u> in the company <u>are</u> given a bonus <u>at</u> the end of the <u>year</u>.",
     options: [
@@ -301,7 +281,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 22,
-    number: 22,
     question:
       "He <u>don’t</u> know <u>where</u> the <u>library</u> is <u>located</u>.",
     options: [
@@ -315,7 +294,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 23,
-    number: 23,
     question:
       "The children <u>was</u> excited <u>about</u> the <u>trip</u> to the <u>zoo</u>.",
     options: [
@@ -329,7 +307,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 24,
-    number: 24,
     question:
       "If she <u>will arrive</u> early, we <u>can</u> start the <u>meeting</u> <u>on time</u>.",
     options: [
@@ -343,7 +320,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 25,
-    number: 25,
     question:
       "I <u>look</u> forward to <u>meet</u> you <u>at</u> the <u>conference</u>.",
     options: [
@@ -357,7 +333,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 26,
-    number: 26,
     question:
       "The book <u>that</u> you gave me <u>are</u> <u>very</u> interesting <u>to read</u>.",
     options: [
@@ -371,7 +346,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 27,
-    number: 27,
     question:
       "The <u>news</u> <u>were</u> announced <u>during</u> the <u>meeting</u>.",
     options: [
@@ -385,7 +359,6 @@ export const questions: QuestionItem[] = [
   },
   {
     id: 28,
-    number: 28,
     question:
       "The teacher <u>encourages</u> students <u>read</u> books <u>outside</u> class <u>to improve</u> their vocabulary.",
     options: [
