@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import Box from '@/components/layouts/Box.vue';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import Typography from '@/components/ui/typography/Typography.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { useQuizzStore } from '@/stores/quizz-store';
 import { storeToRefs } from 'pinia';
-import { useQuizzDisplay } from '@/composables/useQuizzDisplay';
-import { useQuizzLogic } from '@/composables/useQuizzLogic';
-import ScoreCard from '@/components/ScoreCard.vue';
+import { useQuizzDisplay } from '@/composables/quizz/useQuizzDisplay';
+import { useQuizzLogic } from '@/composables/quizz/useQuizzLogic';
 import CorrectAnswerCard from '@/components/CorrectAnswerCard.vue';
 import RadioOptions from '@/components/RadioOptions.vue';
 import { questions } from '@/data/question-mock';
 import type { QuestionItem } from '@/types/quizz-types';
+import { useTimer } from '@/composables/common/useTimer';
+import { formatSecondsToTime } from '@/lib/utils';
+import { router } from '@/router';
 
 const quizzStore = useQuizzStore()
 
 const {
   activeQuestionIndex,
-  score,
   answeredQuestions
 } = storeToRefs(quizzStore)
 
@@ -84,6 +85,21 @@ const getButtonVariant = (question: QuestionItem) => {
   }
 }
 
+const { timer, startTimer } = useTimer()
+
+onMounted(() => {
+  startTimer(1800, {
+    onFinish: () => {
+
+      console.log('Timer finished')
+
+      router.push({
+        name: 'quizz-result',
+      })
+    }
+  })
+})
+
 </script>
 
 <template>
@@ -110,15 +126,19 @@ const getButtonVariant = (question: QuestionItem) => {
       </Box>
     </Box>
 
-    <Box variant='column' class="space-y-4 min-w-1/4">
+    <Box variant='column' class="space-y-2 min-w-1/4">
+      <Box class="bg-white shadow-md rounded-lg border p-4 flex flex-col items-center justify-center">
+        <Typography variant="displaySm" weight="medium" class="text-center">
+          {{ formatSecondsToTime(timer) }}
+        </Typography>
+      </Box>
+
       <Box class="bg-white shadow-md rounded-lg border grid grid-cols-5 gap-2 p-4">
         <Button v-for="(question, i) in questions" :variant="getButtonVariant(question)" :key="i"
           class="!w-full p-4 !h-12 flex items-center justify-center text-sm font-medium" @click="goToQuestion(i)">
           {{ i + 1 }}
         </Button>
       </Box>
-
-      <ScoreCard :score="score" />
     </Box>
   </Box>
 </template>

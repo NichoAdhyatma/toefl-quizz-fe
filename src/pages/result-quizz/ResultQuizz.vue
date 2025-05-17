@@ -2,7 +2,7 @@
 import Box from '@/components/layouts/Box.vue';
 import Button from '@/components/ui/button/Button.vue';
 import Typography from '@/components/ui/typography/Typography.vue';
-import { useQuizzLogic } from '@/composables/useQuizzLogic';
+import { useQuizzLogic } from '@/composables/quizz/useQuizzLogic';
 import { router } from '@/router';
 import { useQuizzStore } from '@/stores/quizz-store';
 import { watchEffect } from 'vue';

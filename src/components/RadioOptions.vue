@@ -3,8 +3,8 @@ import Box from './layouts/Box.vue';
 import Label from './ui/label/Label.vue';
 import RadioGroup from './ui/radio-group/RadioGroup.vue';
 import RadioGroupItem from './ui/radio-group/RadioGroupItem.vue';
-import { useQuizzLogic } from '@/composables/useQuizzLogic';
-import { useQuizzDisplay } from '@/composables/useQuizzDisplay';
+import { useQuizzLogic } from '@/composables/quizz/useQuizzLogic';
+import { useQuizzDisplay } from '@/composables/quizz/useQuizzDisplay';
 
 const { getActiveQuestion } = useQuizzLogic()
 

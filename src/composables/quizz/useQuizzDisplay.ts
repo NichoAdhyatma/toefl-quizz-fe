@@ -14,7 +14,9 @@ export function useQuizzDisplay() {
   };
 
   const getActiveQuestionString = computed(() => {
-    return `${store.activeQuestionIndex + 1}. ${getActiveQuestion.value.question}`;
+    return `${store.activeQuestionIndex + 1}. ${
+      getActiveQuestion.value.question
+    }`;
   });
 
   return {
